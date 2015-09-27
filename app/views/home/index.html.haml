@@ -1,0 +1,3 @@
+= form_tag root_path, method: 'GET' do
+  = select_tag "station", options_for_select(Station.list.map{ |s| s['station_name'] }, params[:station])
+  = submit_tag "ハラルレストランを検索する"
