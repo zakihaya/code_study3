@@ -163,3 +163,56 @@ app/views/home/index.html.haml
 ```
 
 http://localhost:3000 にアクセス
+
+#### Bootstrapのデザインを適用する
+
+app/views/layouts/application.html.erb
+
+```erb
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CodeStudy3</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
+```
+
+app/views/home/index.html.haml
+
+```haml
+.container
+  %h1 山手線の駅からハラルレストラン検索
+
+  = form_tag root_path, method: 'GET', class: 'well form-inline' do
+    = select_tag "station", options_for_select(Station.list.map{ |s| s['station_name'] }, params[:station]), class: 'form-control'
+    駅　
+    = submit_tag "ハラルレストランを検索する", class: 'btn btn-primary'
+
+  - if @shops && @shops.any?
+    %br
+    .shops
+      %table.table.table-striped
+        %tr
+          %th image
+          %th shop name
+          %th category
+          %th detail
+        - @shops.each do |shop|
+          %tr
+            %td= image_tag shop['image'], style: 'width:78px;'
+            %td= shop['name']
+            %td= shop['category']
+            %td
+              = link_to "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", target: '_blank'
+  - else
+    レストランが見つかりませんでした
+```
