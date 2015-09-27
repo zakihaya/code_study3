@@ -3,8 +3,8 @@ class Station
 
   STATIONS_URL = 'http://www.ekidata.jp/api/l/11302.xml'
 
+  # 駅データAPIから山手線の駅一覧を取得
   def self.list
-    # 駅データAPIから山手線の駅一覧を取得
     xml_data = Net::HTTP.get_response(URI.parse(STATIONS_URL)).body
     Hash.from_xml(xml_data.to_s)['ekidata']['station']
   end
