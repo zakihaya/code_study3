@@ -1,3 +1,21 @@
 = form_tag root_path, method: 'GET' do
   = select_tag "station", options_for_select(Station.list.map{ |s| s['station_name'] }, params[:station])
   = submit_tag "ハラルレストランを検索する"
+
+- if @shops.any?
+  %br
+  .shops
+    %table{ border:1, cellspacing:0, cellpadding:0 }
+      %tr
+        %th image
+        %th shop name
+        %th category
+        %th detail
+      - @shops.each do |shop|
+        %tr
+          %td= image_tag shop['image'], style: 'width:78px;'
+          %td= shop['name']
+          %td= shop['category']
+          %td
+            = link_to "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", target: '_blank'
+
