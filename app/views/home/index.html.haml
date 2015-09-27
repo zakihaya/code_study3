@@ -1,22 +1,26 @@
-= form_tag root_path, method: 'GET' do
-  = select_tag "station", options_for_select(Station.list.map{ |s| s['station_name'] }, params[:station])
-  = submit_tag "ハラルレストランを検索する"
+.container
+  %h1 山手線の駅からハラルレストラン検索
 
-- if @shops && @shops.any?
-  %br
-  .shops
-    %table{ border:1, cellspacing:0, cellpadding:0 }
-      %tr
-        %th image
-        %th shop name
-        %th category
-        %th detail
-      - @shops.each do |shop|
+  = form_tag root_path, method: 'GET', class: 'well form-inline' do
+    = select_tag "station", options_for_select(Station.list.map{ |s| s['station_name'] }, params[:station]), class: 'form-control'
+    駅　
+    = submit_tag "ハラルレストランを検索する", class: 'btn btn-primary'
+
+  - if @shops && @shops.any?
+    %br
+    .shops
+      %table.table.table-striped
         %tr
-          %td= image_tag shop['image'], style: 'width:78px;'
-          %td= shop['name']
-          %td= shop['category']
-          %td
-            = link_to "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", target: '_blank'
-- else
-  レストランが見つかりませんでした
+          %th image
+          %th shop name
+          %th category
+          %th detail
+        - @shops.each do |shop|
+          %tr
+            %td= image_tag shop['image'], style: 'width:78px;'
+            %td= shop['name']
+            %td= shop['category']
+            %td
+              = link_to "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", "https://www.halalgourmet.jp/restaurant/#{shop['shop_id']}", target: '_blank'
+  - else
+    レストランが見つかりませんでした
