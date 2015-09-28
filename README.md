@@ -155,7 +155,7 @@ app/views/home/index.html.haml
         %th detail
       - @shops.each do |shop|
         %tr
-          %td= image_tag shop['image'], style: 'width:78px;'
+          %td= image_tag shop['image'], style: 'width:78px;', class: 'image-rounded'
           %td= shop['name']
           %td= shop['category']
           %td
